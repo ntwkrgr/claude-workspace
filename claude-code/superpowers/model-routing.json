@@ -1,0 +1,7 @@
+{
+  "mechanical": "haiku",
+  "standard": "sonnet",
+  "frontier": "inherit",
+  "effort": {"mechanical": "high", "standard": "high", "frontier": "inherit"},
+  "parallelSession": "subagent-driven-development"
+}
