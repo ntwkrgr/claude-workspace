@@ -125,11 +125,22 @@ git branch -d "plan-issue-<N>"
 
 With several issues, name the branch after the first issue and repeat the `git add` and `git commit` lines once per issue. The quoted pathspec also stages a re-plan's deleted files and leaves everything else in the checkout alone.
 
+If branch protection rejects the push (the error mentions a protected branch, a required pull request, or repository rules, e.g. `GH006` or `GH013`), open a PR for the plan instead. `--keep` undoes the local merge without touching other changes in the checkout:
+
+```bash
+git reset --keep "origin/$base"
+git push -u --force origin "plan-issue-<N>"
+gh pr create --base "$base" --head "plan-issue-<N>" --title "docs: add implementation plan for #<N>" --body "Plan for #<N>, also posted on the issue."
+git branch -d "plan-issue-<N>"
+```
+
+`--force` lets a re-plan replace the old plan on the branch. If a PR for the branch is already open, `gh pr create` fails, but the push has already updated that PR, so report its URL. With several issues, list each one in the title and body. Leave `Closes` out of the body, so the issue stays open for `/work-issue`. Merge the PR only if the repo doesn't require review: if `gh pr view <PR> --json reviewDecision -q .reviewDecision` prints nothing, run `gh pr merge <PR> --merge --delete-branch` and then `git pull --ff-only origin "$base"`. If it prints anything else, or the merge fails, leave the PR open and say so. `/work-issue` picks the plan up from the PR.
+
 First check that the checkout is on `<base>` with nothing staged (`git branch --show-current`, `git diff --cached --quiet`). If it isn't, leave the plan uncommitted and report why; `/work-issue` still carries an uncommitted plan onto its branch. If a command fails, report the commit as unfinished; the plan is already on the issue.
 
 ## Step 5: Report, then offer /work-issue
 
-For each planned issue, report the comment URL(s), a one-line gist of the plan, the plan path, and whether it reached `<base>`.
+For each planned issue, report the comment URL(s), a one-line gist of the plan, the plan path, and where the plan stands: reached `<base>`, waiting in an open PR (give its URL), or not committed (say why).
 
 If none were planned, stop here. Otherwise ask with AskUserQuestion:
 - **One issue planned** → "Start /work-issue #<N> now?" — **Work it now** / **Not now**.
