@@ -10,7 +10,7 @@ Take a GitHub issue from "filed" to "PR open": find or write its plan, set up a 
 
 The user's input: `$ARGUMENTS`
 
-This is the companion to `/plan-issue`, which pushes plans to the base branch at `docs/superpowers/plans/<date>-issue-<N>-<slug>.md` and posts them as an issue comment beginning `_Implementation plan (superpowers writing-plans)`. Execution is handed to the **superpowers-extended-cc** skills so the user gets the same review loop, model routing, and resume behavior as the rest of their workflow — don't implement tasks yourself.
+This is the companion to `/plan-issue`, which pushes plans to the base branch (or opens a PR from a `plan-issue-*` branch when the base is protected) at `docs/superpowers/plans/<date>-issue-<N>-<slug>.md` and posts them as an issue comment beginning `_Implementation plan (superpowers writing-plans)`. Execution is handed to the **superpowers-extended-cc** skills so the user gets the same review loop, model routing, and resume behavior as the rest of their workflow — don't implement tasks yourself.
 
 The user can stop at any gate. When they decline, stop cleanly and leave everything already done (plan files, branch, commits) in place.
 
@@ -29,7 +29,7 @@ The user can stop at any gate. When they decline, stop cleanly and leave everyth
    git branch --list "issue-<N>-*"; git worktree list
    gh pr list --state open --search "<N> in:body" --json number,title,headRefName,url
    ```
-   If a branch, worktree, or open PR for this issue exists, tell the user what you found and ask: **Resume it** / **Start fresh** / **Cancel**. Resuming means using that branch/worktree; subagent-driven-development's ledger will pick up where it left off.
+   If a branch, worktree, or open PR for this issue exists, tell the user what you found and ask: **Resume it** / **Start fresh** / **Cancel**. Resuming means using that branch/worktree; subagent-driven-development's ledger will pick up where it left off. An open PR from a `plan-issue-*` branch is a plan PR, not work in flight. Don't ask about it here; Step 1 uses it.
 
 ## Step 1: Find the plan
 
@@ -37,10 +37,11 @@ Run `git fetch origin <base>` first, so a stale checkout can't hide a plan. Then
 
 1. **Saved locally** — `ls docs/superpowers/plans/*-issue-<N>-*.md` (ignore `.tasks.json`). Use the `.md` and the `.tasks.json` beside it.
 2. **On the base branch** — `git ls-tree -r --name-only origin/<base> docs/superpowers/plans | grep -- '-issue-<N>-'`. Read it with `git show origin/<base>:<path>`. The worktree in Step 3 will already contain it.
-3. **Posted on the issue** — the newest comment whose body starts with `_Implementation plan (superpowers writing-plans)`. If it was split into `(part i/n)` comments, join the parts in order. Strip the first pointer line and the part markers, then save the rest to `docs/superpowers/plans/<today>-issue-<N>-<slug>.md`. There's no `.tasks.json` in this case; the execution skill rebuilds tasks from the plan text.
-4. **No plan yet** — invoke the Skill tool with skill `plan-issue` and the issue number as `args`, and follow it. It saves the plan, posts it on the issue, and hands back here.
+3. **In an open plan PR**: the `plan-issue-*` PR found in Step 0. Run `git fetch origin <head>`, then look in `origin/<head>` the same way as 2.
+4. **Posted on the issue** — the newest comment whose body starts with `_Implementation plan (superpowers writing-plans)`. If it was split into `(part i/n)` comments, join the parts in order. Strip the first pointer line and the part markers, then save the rest to `docs/superpowers/plans/<today>-issue-<N>-<slug>.md`. There's no `.tasks.json` in this case; the execution skill rebuilds tasks from the plan text.
+5. **No plan yet** — invoke the Skill tool with skill `plan-issue` and the issue number as `args`, and follow it. It saves the plan, posts it on the issue, and hands back here.
 
-If the plan came from a file (1 or 2) and the issue has no plan comment, post it and tag the issue now, as in `/plan-issue` Step 3.
+If the plan came from a file (1–3) and the issue has no plan comment, post it and tag the issue now, as in `/plan-issue` Step 3.
 
 ## Step 2: Confirm before starting
 
@@ -51,7 +52,7 @@ Put all of it **inside the AskUserQuestion prompt** — text written before a to
 - `question`: "Start work on #<N>?" followed by a blank line and:
   ```
   Issue: #<N> <title>
-  Plan: <plan path> (<source: saved locally | on <base> | from issue comment | new>)
+  Plan: <plan path> (<source: saved locally | on <base> | in plan PR #<n> | from issue comment | new>)
   Goal: <goal line>
   Tasks:
     1. <task heading>
@@ -76,6 +77,8 @@ Choosing **Start** is the user's consent to create the worktree and branch, so d
    git commit -m "docs: add implementation plan for #<N>"
    ```
    Committing the plan means it travels with the PR for reviewers, and a later session can resume from the worktree.
+
+   A plan from a plan PR isn't in the original checkout. Instead of moving it, run `git checkout origin/<head> -- <plan>.md <plan>.md.tasks.json` in the worktree and commit as above. The files then match the plan PR byte for byte, so the two can't conflict. Then close the plan PR and delete its branch: `gh pr close <PR> --delete-branch --comment "Plan committed on issue-<N>-<slug>; it will reach <base> with the work for #<N>."` If `gh pr diff <PR> --name-only` shows plans for other issues too, leave the PR open and say so.
 
 ## Step 4: Execute the plan
 
