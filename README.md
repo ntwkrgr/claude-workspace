@@ -30,4 +30,6 @@ Anything `install.sh` replaces goes to `~/.claude/backup-<timestamp>/`.
 | `claude-code/superpowers/*` | `~/.claude/superpowers/*` |
 | `skills/<name>` | `~/.claude/skills/<name>` |
 
+`skills/no-email` is a mod (function hook), not a skill: Claude Code auto-loads it from `~/.claude/skills/` and it strips the `userEmail` block from the context sent to the model. Org policy on Team/Enterprise logins can skip it; check with `claude --debug` for a `no-email: prompt.context bypassed by ...` line.
+
 Not synced: account-synced skills (`~/.claude/skills/synced/`, delivered by the Claude app), `settings.local.json` (per-machine overrides), plugin install state, and MCP servers in `~/.claude.json`.
