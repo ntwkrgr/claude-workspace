@@ -3,3 +3,6 @@
 
 # macOS
 .DS_Store
+
+# Types Claude Code generates for mods
+skills/*/.claude-plugin/types/
