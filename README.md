@@ -16,7 +16,7 @@ Then start Claude Code once. Plugins listed in `settings.json` install from thei
 
 A SessionStart hook runs `install.sh --pull` each session: it fast-forwards this repo and links any new skills. It does nothing if you have local changes or the branches diverge, so commit and push changes from wherever you make them.
 
-Anything `install.sh` replaces goes to `~/.claude/backup-<timestamp>/`.
+Anything `install.sh` replaces goes to `~/.claude/backup-<timestamp>/`. Keep one clone per machine: if `~/.claude` is already linked to another clone that still exists, `install.sh` warns and changes nothing.
 
 ## What's linked
 
