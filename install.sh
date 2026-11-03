@@ -7,6 +7,13 @@ repo="$(cd "$(dirname "$0")" && pwd -P)"
 claude="$HOME/.claude"
 backup="$claude/backup-$(date +%Y%m%d-%H%M%S)"
 
+# Stops without changes if another clone that still exists owns ~/.claude
+owner="$(readlink "$claude/settings.json")"
+if [[ "$owner" == */claude-code/settings.json && "$owner" != "$repo/claude-code/settings.json" && -e "$owner" ]]; then
+  echo "warning: ~/.claude is linked to ${owner%/claude-code/settings.json}, not $repo. Delete one clone, then re-run install.sh."
+  exit 1
+fi
+
 # Fast-forwards to the remote; does nothing on local changes, divergence, or no network
 if [[ "${1:-}" == "--pull" ]]; then
   git -C "$repo" -c http.lowSpeedLimit=1000 -c http.lowSpeedTime=5 pull --ff-only -q >/dev/null 2>&1
