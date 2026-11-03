@@ -70,6 +70,10 @@
     "type": "command",
     "command": "node \"$HOME/.claude/hooks/statusline.js\""
   },
+  "subagentStatusLine": {
+    "type": "command",
+    "command": "node \"$HOME/.claude/hooks/statusline.js\" subagent"
+  },
   "enabledPlugins": {
     "codex@openai-codex": true,
     "superpowers-extended-cc@superpowers-extended-cc-marketplace": true,
@@ -100,7 +104,7 @@
   "outputStyle": "Concise",
   "modelSettings": {
     "claude-opus-5-5": {
-      "effortLevel": "xhigh",
+      "effortLevel": "high",
       "autoCompactWindow": 600000
     }
   },
@@ -110,9 +114,5 @@
   "switchModelsOnFlag": false,
   "remoteControlAtStartup": true,
   "inputNeededNotifEnabled": true,
-  "agentPushNotifEnabled": true,
-  "subagentStatusLine": {
-    "type": "command",
-    "command": "node \"$HOME/.claude/hooks/statusline.js\" subagent"
-  }
+  "agentPushNotifEnabled": true
 }
