@@ -16,14 +16,24 @@ The point is understanding Chas can use: explaining the system to someone else, 
 
 ## Workflow
 
-1. **Quick check.** Before building, ask two or three questions with AskUserQuestion, one per call, recommended option first. Ask what he already knows about this topic (offer concrete levels, not "beginner/expert"), what he wants to be able to do afterward, and, if the topic is broad, which part matters most. Skip this on a follow-up page; the saved progress answers it. If he's away, take the most reasonable reading and say which one you took.
+1. **Quick check.** Before building, ask with AskUserQuestion, one question per call, recommended option first: what he already knows about this topic (offer concrete levels, not "beginner/expert"), what he wants to be able to do afterward, if the topic is broad which part matters most, and always last, how in-depth the page should go (see Depth). On a follow-up page, skip all but the depth question; the saved progress answers the rest. If he's away, take the most reasonable reading, default to Standard depth, and say which reading you took.
 2. **Gather.** Repo mode: read the code that actually runs, in order, and note real constants, function names, file names and the reasons comments give. When behavior depends on a library, check that library's source at the version the repo pins, not memory (on the Aries page this caught that rtmlib 0.0.16 averages the two SimCC peaks rather than taking the minimum). Subject mode: research until every claim you plan to make has a source.
 3. **Find the thesis.** Write the one sentence that reorganizes the topic for this learner, the thing they'd say if asked "so how does it work?" For Aries it was "two neural nets, then rules you can read." It becomes the page's headline and shapes which stations exist.
-4. **Plan the stations.** Follow the topic's real order: the order the pipeline runs, the order a packet travels, the order a proof builds. Size the page to the topic, but make each station earn its place: one idea, one lab, one or two checks. If the plan runs past about eight stations, offer to split it into a series instead, since a page that long is rarely finished in one sitting.
-5. **Build.** Load `artifact-design` and `artifact-capabilities`, then write one HTML page (details below). Inline `assets/runtime.js` and publish with these capabilities:
+4. **Plan the stations.** Follow the topic's real order: the order the pipeline runs, the order a packet travels, the order a proof builds. Size the page to the chosen depth, and make each station earn its place: one idea, one lab, its checks. If the plan runs past the depth's station count, cut or offer to split it into a series.
+5. **Build.** Load `artifact-design` and `artifact-capabilities`, then write one HTML page (details below). Write a `/*RUNTIME*/` placeholder where the runtime goes and have a script substitute `assets/runtime.js` into it, rather than retyping it. Publish with these capabilities:
    `{"db": {"rules": [{"path": "progress", "read": "view", "write": "owner"}]}, "user": {}, "sample": {}}`
 6. **Verify.** Check every claim against its source one more time, take one render at phone width in light and dark and fix what it shows, then do the functional pass the capabilities skill describes (write a probe document under `progress`, read it, delete it).
 7. **Hand over.** One sentence on what the page teaches, plus anything you couldn't verify. Don't recap the stations; he'll open the page.
+
+## Depth
+
+Ask it as its own card, Standard first and marked recommended. Depth sets length; it never lowers accuracy or drops the lab.
+
+- **Quick:** 3 to 4 stations. One short paragraph per station (about 60 words), the lab, one check, and at most three entries under "The details." About 15 minutes.
+- **Standard (default):** 4 to 6 stations. One or two short paragraphs (about 120 words), the lab, one check, at most four detail entries.
+- **Deep dive:** up to 8 stations. Up to three paragraphs, the lab, two checks, a full details list. Offer a series beyond that.
+
+Words are the usual excess. Cut any sentence the lab already shows, any second example for the same point, and any recap of an earlier station.
 
 ## Why a hand-built page, not the Dashboard type
 
@@ -32,10 +42,10 @@ The Dashboard artifact type only displays data from sources and gives the page n
 ## Station anatomy
 
 - **Eyebrow** naming what kind of step it is (for repo pages, the file it lives in).
-- **Explanation:** two or three short paragraphs in plain language. Define a term the first time it appears. No jargon you wouldn't use out loud.
+- **Explanation:** plain language, at the length the depth allows. Define a term the first time it appears. No jargon you wouldn't use out loud.
 - **Lab:** one interactive figure (see below).
 - **"In your code" or "The details":** the real constants and names with a one-line meaning each. In repo mode these are what make the page trustworthy, because he can find each one in the code. Keep code excerpts rare; concepts plus real constants is the default depth.
-- **Check yourself:** one or two free-answer questions mounted with `Learn.mountQuestion`.
+- **Check yourself:** free-answer questions mounted with `Learn.mountQuestion`, as many as the depth allows.
 
 ## Labs
 
