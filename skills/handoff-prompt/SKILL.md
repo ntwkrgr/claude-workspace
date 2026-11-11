@@ -1,8 +1,8 @@
 ---
-name: give-prompt
+name: handoff-prompt
 description: >
   Write a self-contained hand-off prompt for a fresh Claude Code session and give it in the
-  chat as one copyable code block. Use whenever the user runs /give-prompt (optionally
+  chat as one copyable code block. Use whenever the user runs /handoff-prompt (optionally
   followed by what the prompt is for), or says things like "give me a prompt for a new
   session", "write a hand-off prompt", "prompt to continue this elsewhere", "give me
   something to paste into a new session", "hand this off to another session", or otherwise
@@ -10,7 +10,7 @@ description: >
   re-explaining it.
 ---
 
-# Give prompt
+# Handoff prompt
 
 The user wants to carry the current work into a new Claude Code session, and needs the
 prompt to paste there. That session starts cold: it has the repo and the instruction files
@@ -20,7 +20,7 @@ it.
 
 ## 1. Decide what the new session must do
 
-Use the text after `/give-prompt` if there is any. Otherwise work it out from the
+Use the text after `/handoff-prompt` if there is any. Otherwise work it out from the
 conversation: the plan just written, the task left half done, the work waiting for review.
 
 If you can't tell what the new session should deliver, ask one question with
