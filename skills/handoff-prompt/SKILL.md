@@ -51,33 +51,33 @@ use the check line after the block to tell the user to commit and push first.
 
 ## 3. Write the prompt
 
-Use these sections, in this order. Leave out "How the work has been run so far" when
+Use these sections, in this order. Leave out "Practices to keep" when
 there is nothing project-specific to say.
 
 ```
-<Title: what the new session is being asked to do, in plain words>
+<Title: the task of the new session, in plain words>
 
 Where to run it: <absolute folder path>, on branch `<branch>`.
 
 <the slash command and its arguments (usually the plan path), alone on its line, exactly as
 it must be typed, if the work starts with one>
 
-## What you are doing
+## Your task
 <Two or three sentences: the project, what is already done, what this session must
 deliver. One sentence on what is out of scope.>
 
-## Read before starting
+## Read these files first
 1. `<path>`: <why, in a few words>
 2. ...
 
-## How the work has been run so far
+## Practices to keep
 - <branching and merge rules, review steps, how to build and test, how to check visual
   work, anything learned the hard way>
 
 ## My preferences
 - <only the ones that would change what the new session does>
 
-## What to hand back at the end
+## What to give me at the end
 - <concrete deliverables, and what "done" means>
 ```
 
@@ -88,7 +88,7 @@ How to write it well:
   finding, give the decision and its reason. If a finding matters and lives only in this
   conversation (a ruled-out cause, a reproduction step, a measured number), write it into
   the prompt; the new session has no other way to learn it.
-- **Open questions go in "What you are doing".** Say what is undecided, what to check
+- **Open questions go in "Your task".** Say what is undecided, what to check
   to decide it, and when to stop and ask the user.
 - **Situation and goal over rules.** A clear picture of where things stand and what done
   looks like steers better than a list of dos and don'ts. Use plain, direct sentences and
@@ -110,7 +110,24 @@ How to write it well:
 - **Fences inside.** If the prompt needs a code block, use three backticks; the outer
   block uses four.
 
-## 4. Give it to the user
+## 4. Rewrite it in Simplified Technical English
+
+The reader of the prompt is an agent, so the prompt you give the user must have gone
+through the `asd-ste100` skill. Write the draft prompt to a scratch file, then:
+
+1. Invoke the `asd-ste100` skill with the Skill tool, in Strict mode, and rewrite the
+   draft by its rules.
+2. Run its linter on the prompt text only:
+   `python3 ~/.claude/skills/asd-ste100/scripts/ste-lint.py <draft-file>`
+3. Fix every finding and run the linter again until it reports 0 violations.
+
+The usual findings are semicolons, sentences over 25 words, passive voice ("the plan is
+committed" becomes "I committed the plan"), present perfect, and two words for one action
+("check" and "confirm"). Keep code, paths, commands and quoted errors exactly as they are.
+A finding inside them is not a violation. Keep every hedge ("may", "might") as strong as
+it was. A finding may stay only if a fix would lose meaning or the linter is plainly wrong.
+
+## 5. Give it to the user
 
 Reply with exactly this shape:
 
@@ -121,11 +138,12 @@ Reply with exactly this shape:
 <the prompt>
 ````
 
-<Optional: one line on anything to check before using it, e.g. "Push branch `x` first;
-the plan's last commit is local only.">
+<Optional: one line on anything to check before using it, e.g. "Push branch `x` first.
+The last commit of the plan is only on this machine.">
 ~~~~~
 
-Keep the check line to one line even when there are several things to check. The
+The check line is for actions the user must take before pasting (commit, push, add a
+remote). Keep it to one line, and leave out anything that is only for information. The
 four-backtick fence keeps Markdown and inline code inside the prompt intact when the
 user copies it. Put nothing else in the reply: no summary of the prompt, no offer of
 alternatives, and never the prompt as a file only. The user should get it in one copy
