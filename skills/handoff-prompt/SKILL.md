@@ -112,20 +112,20 @@ How to write it well:
 
 ## 4. Rewrite it in Simplified Technical English
 
-The reader of the prompt is an agent, so write the prompt in ASD-STE100 Strict mode.
-Use the `asd-ste100` skill on the draft, then run its linter on the prompt text only:
+The reader of the prompt is an agent, so the prompt you give the user must have gone
+through the `asd-ste100` skill. Write the draft prompt to a scratch file, then:
 
-```bash
-python3 ~/.claude/skills/asd-ste100/scripts/ste-lint.py <draft-file>
-```
+1. Invoke the `asd-ste100` skill with the Skill tool, in Strict mode, and rewrite the
+   draft by its rules.
+2. Run its linter on the prompt text only:
+   `python3 ~/.claude/skills/asd-ste100/scripts/ste-lint.py <draft-file>`
+3. Fix every finding and run the linter again until it reports 0 violations.
 
-Fix every finding and run the linter again until it reports 0 violations. The usual
-findings are semicolons, sentences over 25 words, passive voice ("the plan is committed"
-becomes "I committed the plan"), present perfect, and two words for one action ("check"
-and "confirm"). Keep code, paths, commands and quoted errors exactly as they are. A
-finding inside them is not a violation. Keep every hedge ("may", "might") as strong as it
-was. If a finding stays because a fix would lose meaning, it is acceptable, but a stylish
-sentence is not a reason.
+The usual findings are semicolons, sentences over 25 words, passive voice ("the plan is
+committed" becomes "I committed the plan"), present perfect, and two words for one action
+("check" and "confirm"). Keep code, paths, commands and quoted errors exactly as they are.
+A finding inside them is not a violation. Keep every hedge ("may", "might") as strong as
+it was. A finding may stay only if a fix would lose meaning or the linter is plainly wrong.
 
 ## 5. Give it to the user
 
@@ -142,7 +142,8 @@ Reply with exactly this shape:
 The last commit of the plan is only on this machine.">
 ~~~~~
 
-Keep the check line to one line even when there are several things to check. The
+The check line is for actions the user must take before pasting (commit, push, add a
+remote). Keep it to one line, and leave out anything that is only for information. The
 four-backtick fence keeps Markdown and inline code inside the prompt intact when the
 user copies it. Put nothing else in the reply: no summary of the prompt, no offer of
 alternatives, and never the prompt as a file only. The user should get it in one copy
