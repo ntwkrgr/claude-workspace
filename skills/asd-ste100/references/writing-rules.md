@@ -45,6 +45,10 @@ ASD-STE100 is a controlled natural language, first released in 1986 (as AECMA Do
 **Safety instructions**
 - Safety-critical instructions must open with a clear command or condition, not be buried mid-sentence.
 
+## Why the Dictionary Is Not in This Repo
+
+ASD-STE100 is free to obtain, but it is not free to redistribute. Issue 9, page 2 states that "no reproduction or publication of it, in whole or in part, shall be made without the written authority of an officer of ASD," and grants free reproduction rights only to eight listed categories (ASD/AIA/AIAC member associations and their member companies and customers, member-state defence ministries, A4A, airworthiness authorities, and universities and research institutes for educational purposes). This project is in none of them, so the dictionary stays out of this repo. Request the standard from the [official downloads page](https://www.asd-ste100.org/STE_downloads.html). It is a request form that emails you a link, not a direct download.
+
 ## Why This Skill Repurposes STE for Agent Output
 
 STE was designed to eliminate ambiguity for a reader who cannot ask a follow-up question — a technician on a tarmac, working from a manual, with no author to call. An AI agent parsing another agent's output, a tool description, or a system message is in the same position: no back-channel to resolve "does this passive-voice sentence mean the caller does X, or the callee does X?" The same rule set that protects an airline mechanic from a misread torque spec protects a downstream agent from a misread instruction.

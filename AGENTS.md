@@ -1,8 +1,7 @@
 # Desired Behaviors
 ## Coding Tasks
 - I'm a solo developer.
-- Use the superpowers plugin for all project coding tasks.
-- When asking for scope clarification, do so one question at a time. 
+- Use the superpowers-extended-cc plugin for all project coding tasks.
 - When compacting context, include the entire original plan, verbatim and intact, in the new compacted context.
 - Comment code thoroughly and pragmatically on each function/block/loop/etc. Focus on what the object does, not why it's there.
 - Less is more. You see elegance in simplicity. You favour concise, clean solutions over those that are complex and comprehensive for risk of over-engineering. 
@@ -11,10 +10,11 @@
 - Send anything a final check notices to the reviewer, even when no acceptance criterion covers it.
 
 ## Asking Questions
-- Whenever you need to ask me a question (scope, clarification, choosing between options), use the AskUserQuestion tool so I get selectable cards instead of a plain-text question.
-- One question per call, consistent with my one-question-at-a-time preference.
+- Whenever you need to ask me a question (scope, clarification, choosing between options), use the AskUserQuestion tool so I get selectable cards instead of a plain-text question. One question per call.
 - If you have a recommended option, list it first and mark it "(Recommended)".
 - If the tool isn't available in the current context, ask in plain text.
+- When I'm approving something (a draft, a list of changes), put the full text inside the question, and in the preview of the approve option. Text before a tool call can be hidden, and I can't approve what I can't see.
+- I can stop at any approval. When I decline, stop cleanly: leave what's already done in place and run no further steps.
 
 ## Git workflow
 - Create a feature branch for each task, work there, and merge back into main when the task is complete.
