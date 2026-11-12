@@ -12,8 +12,6 @@ The user's input: `$ARGUMENTS`
 
 This is the companion to `/plan-issue`, which pushes plans to the base branch (or opens a PR from a `plan-issue-*` branch when the base is protected) at `docs/superpowers/plans/<date>-issue-<N>-<slug>.md` and posts them as an issue comment beginning `_Implementation plan (superpowers writing-plans)`. Execution is handed to the **superpowers-extended-cc** skills so the user gets the same review loop, model routing, and resume behavior as the rest of their workflow — don't implement tasks yourself.
 
-The user can stop at any gate. When they decline, stop cleanly and leave everything already done (plan files, branch, commits) in place.
-
 ## Step 0: Preflight
 
 1. Parse the issue number from `$ARGUMENTS` (`42`, `#42`, or a full issue URL). If there's nothing to parse, ask which issue.
@@ -47,7 +45,7 @@ If the plan came from a file (1–3) and the issue has no plan comment, post it 
 
 Gather what the user needs to decide: the task headings (`grep '^### Task' <plan>`), the plan's **Goal** line, any **Deferred decisions**, the base branch (the repo default from Step 0), and the branch name `issue-<N>-<short-slug>` (lowercase, hyphens, slug ≤ ~5 words from the issue title).
 
-Put all of it **inside the AskUserQuestion prompt** — text written before a tool call can be collapsed in some interfaces, and the user can't approve what they can't see:
+Ask with AskUserQuestion:
 
 - `question`: "Start work on #<N>?" followed by a blank line and:
   ```
