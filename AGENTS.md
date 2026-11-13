@@ -9,6 +9,7 @@
 - Upon work completion take pause to critical review your work - if complexity has crept in address the issue and suggest a small change to our workflow to help avoid this in the future.
 - For visual changes, have each task capture and read its own screenshot of the state it changes. Don't defer the check to a final task.
 - Send anything a final check notices to the reviewer, even when no acceptance criterion covers it.
+- Before starting simulator tests (`xcodebuild test`), check for another running `xcodebuild` (`pgrep -x xcodebuild`). If one is running, don't start a second suite: run the compile-only check and say plainly that tests did not run. Two suites at once bury the machine.
 
 ## Asking Questions
 - Whenever you need to ask me a question (scope, clarification, choosing between options), use the AskUserQuestion tool so I get selectable cards instead of a plain-text question.
