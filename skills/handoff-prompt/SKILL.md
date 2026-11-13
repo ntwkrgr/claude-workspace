@@ -113,19 +113,19 @@ How to write it well:
 ## 4. Rewrite it in Simplified Technical English
 
 The reader of the prompt is an agent, so the prompt you give the user must have gone
-through the `asd-ste100` skill. Write the draft prompt to a scratch file, then:
+through the `ste80-humanizer` skill. Write the draft prompt to a scratch file, then:
 
-1. Invoke the `asd-ste100` skill with the Skill tool, in Strict mode, and rewrite the
-   draft by its rules.
-2. Run its linter on the prompt text only:
-   `python3 ~/.claude/skills/asd-ste100/scripts/ste-lint.py <draft-file>`
-3. Fix every finding and run the linter again until it reports 0 violations.
+1. Invoke the `ste80-humanizer` skill with the Skill tool, in Strict STE mode, and
+   rewrite the draft by its rules.
+2. Run its checker on the prompt text only, from the skill's base directory:
+   `python3 scripts/ste_check.py --strict <draft-file>`
+3. Fix every finding and run the checker again until it reports no findings.
 
 The usual findings are semicolons, sentences over 25 words, passive voice ("the plan is
 committed" becomes "I committed the plan"), present perfect, and two words for one action
 ("check" and "confirm"). Keep code, paths, commands and quoted errors exactly as they are.
 A finding inside them is not a violation. Keep every hedge ("may", "might") as strong as
-it was. A finding may stay only if a fix would lose meaning or the linter is plainly wrong.
+it was. A finding may stay only if a fix would lose meaning or the checker is plainly wrong.
 
 ## 5. Give it to the user
 
