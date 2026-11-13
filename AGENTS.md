@@ -9,7 +9,7 @@
 - Upon work completion take pause to critical review your work - if complexity has crept in address the issue and suggest a small change to our workflow to help avoid this in the future.
 - For visual changes, have each task capture and read its own screenshot of the state it changes. Don't defer the check to a final task.
 - Send anything a final check notices to the reviewer, even when no acceptance criterion covers it.
-- Never run more than one simulator at a time. Before booting one or starting simulator tests (`xcodebuild test`), check for a booted simulator (`xcrun simctl list devices booted`) and a running `xcodebuild` (`pgrep -x xcodebuild`). If either belongs to other work, don't start a second: run the compile-only check and say plainly that tests did not run. Shut down the simulator you booted when you finish.
+- Never run more than one simulator at a time. If one is already running, skip simulator tests and say so.
 
 ## Asking Questions
 - Whenever you need to ask me a question (scope, clarification, choosing between options), use the AskUserQuestion tool so I get selectable cards instead of a plain-text question.
