@@ -78,7 +78,8 @@
     "codex@openai-codex": true,
     "superpowers-extended-cc@superpowers-extended-cc-marketplace": true,
     "swiftui-pro@swiftui-agent-skill": true,
-    "frontend-design@anthropic-plugin-directory": true
+    "frontend-design@anthropic-plugin-directory": true,
+    "ste80-humanizer@ste80-humanizer": true
   },
   "extraKnownMarketplaces": {
     "openai-codex": {
@@ -99,6 +100,13 @@
         "source": "git",
         "url": "https://github.com/twostraws/SwiftUI-Agent-Skill.git"
       }
+    },
+    "ste80-humanizer": {
+      "source": {
+        "source": "github",
+        "repo": "Dodaios/ste80-humanizer"
+      },
+      "autoUpdate": true
     }
   },
   "outputStyle": "Concise",
