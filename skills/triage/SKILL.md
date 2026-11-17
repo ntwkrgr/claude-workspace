@@ -72,7 +72,7 @@ Needs info
 Next up (no changes): #41 (has plan), #33, #29
 ```
 
-The user has to see this list to approve it, and text written before a tool call can be collapsed in some interfaces. So put **the whole list inside the AskUserQuestion prompt**:
+Ask with AskUserQuestion:
 
 - `question`: "Apply these triage changes?" followed by a blank line and the full numbered list.
 - `options`: **Apply all** / **Apply some** / **Cancel**. Give **Apply all** a `preview` with the same list.

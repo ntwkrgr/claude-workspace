@@ -10,8 +10,6 @@ Turn the user's prompt into a GitHub issue in the current repository, with an ap
 
 The user's prompt: `$ARGUMENTS`
 
-The user can stop at any gate. When they decline, stop cleanly — whatever was already created stays as-is, nothing is rolled back, and no further steps run. Report the issue URL (if one exists) and end.
-
 ## Step 0: Preflight
 
 Confirm you're in a GitHub repo and learn what metadata is available:
@@ -47,7 +45,7 @@ Draft:
 - **Labels** — pick from the repo's existing labels only (from preflight). Choose the ones that genuinely fit (type like `bug`/`enhancement`, area, priority if the repo uses them). If a clearly-needed label doesn't exist, list it separately as "new label — will be created if you approve" rather than silently inventing it.
 - **Other metadata** — include assignee, milestone, or project only when the prompt asks for them or they're obvious (e.g. "assign to me" → `@me`). Otherwise omit.
 
-The user can't approve what they can't see. Text you write before a tool call can be collapsed or hidden in some interfaces, so the draft has to live **inside the approval prompt itself** — not only in a message before it. Format the draft like this:
+Format the draft like this:
 
 ```
 Repo: owner/name
@@ -60,8 +58,6 @@ Assignee / Milestone: <only if set>
 Ask for approval with AskUserQuestion:
 - `question`: "Create this issue?" followed by a blank line and the full draft above — every field, with the exact title and description text that will be saved.
 - `options`: **Create it** / **Edit** / **Cancel**. Give **Create it** a `preview` containing the same full draft, so it's visible whichever option is focused.
-
-Before calling AskUserQuestion, check that the question text contains the actual title and description — not a placeholder, a summary, or "see above". If it doesn't, fix it before asking.
 
 - **Edit** → apply the user's changes and ask again with the revised draft embedded the same way. Loop until they approve or cancel.
 - **Cancel** → stop. Nothing was created.

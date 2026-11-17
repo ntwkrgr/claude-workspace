@@ -1,6 +1,6 @@
 ---
 name: learning-page
-description: Build Chas an interactive learning page that teaches one topic in stations, each with a hands-on lab and free-answer checks that Claude grades, with progress saved so the next page picks up where he left off. Use whenever he asks to learn, understand or be taught something, wants to know how code in a repo works ("teach me how the model in Aries works", "explain this codebase"), asks for a lesson, tutorial, explainer or "learning dashboard", or comes back to continue a topic he studied before. Use it even when he just says "I want to understand X" or "how does X actually work?" and a one-paragraph answer wouldn't do it justice.
+description: Build Chas an interactive learning page that teaches one topic in stations, each with a hands-on lab and free-answer checks that Claude grades, with progress saved so the next page picks up where he left off. Use when he asks to be taught a topic or a repo's code ("teach me how the model in Aries works"), asks for a lesson, tutorial, learning page or "learning dashboard", or asks for the next lesson on a topic he studied before. Not for ordinary questions about how something works or what code does: answer those in the chat.
 ---
 
 # Learning page

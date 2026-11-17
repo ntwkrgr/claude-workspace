@@ -12,8 +12,6 @@ The user's input: `$ARGUMENTS`
 
 Planning uses the **superpowers-extended-cc** plugin's `writing-plans` skill, so the plan comes out in the format `/work-issue` and `/subagent-driven-development` consume (task blocks with acceptance criteria, verify commands, and `modelTier` metadata for model routing). The plan is pushed to the repo *and* posted to the issue — the saved copy is what makes it executable later.
 
-The user can stop at any gate. When they decline, stop cleanly — whatever was already saved or posted stays as-is.
-
 **When `/work-issue` calls this** (its issue has no plan, or the user chose **Re-plan**): plan just that issue, skip the Step 1 question — the user already chose — still ask the Step 2 effort question, pass any re-plan notes as the planner's "Guidance" line, and skip Step 5, handing the plan path back to `/work-issue`.
 
 ## Step 0: Pick the issues
