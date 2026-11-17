@@ -25,7 +25,7 @@ Anything `install.sh` replaces goes to `~/.claude/backup-<timestamp>/`. Keep one
 | `AGENTS.md` | `~/.claude/AGENTS.md` (global instructions) |
 | `CLAUDE.md` | `~/.claude/CLAUDE.md` (imports `AGENTS.md`) |
 | `claude-code/settings.json` | `~/.claude/settings.json` (plugins, hooks, preferences) |
-| `claude-code/hooks/*` | `~/.claude/hooks/*` (includes `statusline.js`, the status line) |
+| `claude-code/hooks/*` | `~/.claude/hooks/*` (includes `statusline.sh`, the status line, and `statusline.js`, the subagent status line) |
 | `claude-code/superpowers/*` | `~/.claude/superpowers/*` |
 | `skills/<name>` | `~/.claude/skills/<name>` |
 

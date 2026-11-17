@@ -59,6 +59,6 @@ for l in "$claude"/* "$claude"/hooks/* "$claude"/superpowers/* "$claude"/skills/
 done
 
 # Flags missing tools the synced config depends on
-command -v jq >/dev/null || echo "warning: hooks/block-env-edits.sh needs jq (brew install jq / sudo apt install jq)"
-command -v node >/dev/null || echo "warning: the status line (hooks/statusline.js) needs node"
+command -v jq >/dev/null || echo "warning: hooks/block-env-edits.sh and hooks/statusline.sh need jq (brew install jq / sudo apt install jq)"
+command -v node >/dev/null || echo "warning: the subagent status line (hooks/statusline.js) needs node"
 exit 0
