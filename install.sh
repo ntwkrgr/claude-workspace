@@ -35,11 +35,10 @@ link() {
   echo "linked ~/.claude/${dest#"$claude"/}"
 }
 
-# Global instructions, settings, and status line
+# Global instructions and settings
 link "$repo/AGENTS.md" "$claude/AGENTS.md"
 link "$repo/CLAUDE.md" "$claude/CLAUDE.md"
 link "$repo/claude-code/settings.json" "$claude/settings.json"
-link "$repo/claude-code/statusline.sh" "$claude/statusline.sh"
 
 # Hook scripts and superpowers config, one link per file
 for f in "$repo"/claude-code/hooks/* "$repo"/claude-code/superpowers/*; do
@@ -51,15 +50,15 @@ for d in "$repo"/skills/*/; do
   link "${d%/}" "$claude/skills/$(basename "$d")"
 done
 
-# Removes skill links whose folder was deleted from the repo
-for l in "$claude"/skills/*; do
+# Removes links into this repo whose target was deleted from the repo
+for l in "$claude"/* "$claude"/hooks/* "$claude"/superpowers/* "$claude"/skills/*; do
   if [[ -L "$l" && ! -e "$l" && "$(readlink "$l")" == "$repo"/* ]]; then
     rm "$l"
-    echo "removed ~/.claude/skills/$(basename "$l")"
+    echo "removed ~/.claude/${l#"$claude"/}"
   fi
 done
 
 # Flags missing tools the synced config depends on
-command -v jq >/dev/null || echo "warning: statusline.sh and block-env-edits.sh need jq (brew install jq / sudo apt install jq)"
+command -v jq >/dev/null || echo "warning: hooks/block-env-edits.sh needs jq (brew install jq / sudo apt install jq)"
 command -v node >/dev/null || echo "warning: the status line (hooks/statusline.js) needs node"
 exit 0
