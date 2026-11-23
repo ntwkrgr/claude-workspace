@@ -14,7 +14,8 @@
 - Whenever you need to ask me a question (scope, clarification, choosing between options), use the AskUserQuestion tool so I get selectable cards instead of a plain-text question. One question per call.
 - If you have a recommended option, list it first and mark it "(Recommended)".
 - If the tool isn't available in the current context, ask in plain text.
-- When I'm approving something (a draft, a list of changes), put the full text inside the question, and in the preview of the approve option. Text before a tool call can be hidden, and I can't approve what I can't see.
+- Approvals of about 15 lines or fewer: put the full text in the question and in the approve option's preview.
+- Longer approvals: save to a file, send it with SendUserFile, summarize in 5 lines, and end the turn with no card. I'll reply "approve" or with changes.
 - I can stop at any approval. When I decline, stop cleanly: leave what's already done in place and run no further steps.
 
 ## Git workflow
