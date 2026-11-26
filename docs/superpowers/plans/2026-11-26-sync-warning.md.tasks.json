@@ -4,9 +4,9 @@
     {
       "id": 0,
       "subject": "Task 1: Out-of-sync warning in install.sh",
-      "status": "pending",
+      "status": "completed",
       "description": "**Goal:** `install.sh --pull` prints the exact warning line when the clone is behind, ahead, or dirty, and nothing otherwise.\n\n**Files:**\n- Modify: `install.sh` (new block just before the final `exit 0`)\n- Modify: `README.md` (\"Staying in sync\" paragraph: one added sentence)\n- Test (not committed): `$SCRATCH/sync-warning-test.sh`, where `$SCRATCH` is the session scratchpad\n\n**Acceptance Criteria:**\n- [ ] In-sync clean clone with `--pull`: output contains no `out of sync`.\n- [ ] Remote 1 commit ahead and local uncommitted edit to the same file: output contains `(1 behind, uncommitted changes)`.\n- [ ] Local unpushed commit: output contains `(1 unpushed)`.\n- [ ] Dirty clone run without `--pull`: output contains no `out of sync`.\n- [ ] Clone with no upstream and a dirty tree, with `--pull`: output contains `(uncommitted changes)` and no `fatal`.\n- [ ] Every run exits 0.\n- [ ] README \"Staying in sync\" says Claude warns at session start when the clone is out of sync.\n\n**Verify:** `bash $SCRATCH/sync-warning-test.sh` \u2192 prints `PASS` for all 5 cases and exits 0.\n\n```json:metadata\n{\"files\": [\"install.sh\", \"README.md\"], \"verifyCommand\": \"bash $SCRATCH/sync-warning-test.sh\", \"acceptanceCriteria\": [\"in-sync clean clone with --pull prints no 'out of sync'\", \"behind + uncommitted prints '(1 behind, uncommitted changes)'\", \"unpushed commit prints '(1 unpushed)'\", \"dirty clone without --pull prints no warning\", \"no upstream + dirty prints '(uncommitted changes)' and no 'fatal'\", \"every run exits 0\", \"README Staying in sync mentions the warning\"], \"modelTier\": \"mechanical\"}\n```"
     }
   ],
-  "lastUpdated": "2026-11-26T17:40:00Z"
+  "lastUpdated": "2026-11-26T18:00:00Z"
 }
