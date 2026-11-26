@@ -8,7 +8,7 @@
     ],
     "defaultMode": "auto"
   },
-  "model": "claude-opus-5-5",
+  "model": "opus[1m]",
   "hooks": {
     "SessionStart": [
       {
