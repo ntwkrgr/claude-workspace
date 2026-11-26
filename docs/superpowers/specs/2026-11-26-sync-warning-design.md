@@ -39,7 +39,7 @@ After the pull block in `install.sh`, when `--pull` was given:
 - `git rev-list --left-right --count HEAD...@{u}` gives unpushed (left) and behind (right) counts. If there's no upstream, skip the counts.
 - `git status --porcelain` non-empty means uncommitted changes.
 - `git symbolic-ref --short -q HEAD` gives the branch; anything other than `main` (or a detached HEAD) adds `on <branch>, not main` (`on detached HEAD, not main`).
-- If any is non-zero, print one line:
+- If any part applies, print one line:
   `warning: claude-workspace on this Mac is out of sync with GitHub (<parts>). Tell the user this at the start of your first reply, and that ~/Developer/claude-workspace needs a commit/push or pull.`
   `<parts>` lists only the non-zero items, for example `9 behind, uncommitted changes`.
 

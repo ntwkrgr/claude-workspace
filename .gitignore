@@ -6,4 +6,6 @@
 
 # Types Claude Code generates for mods
 skills/*/.claude-plugin/types/
+
+# Local superpowers scratch (SDD workspaces, brainstorm mockups)
 .superpowers/

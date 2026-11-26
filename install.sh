@@ -66,6 +66,7 @@ command -v node >/dev/null || echo "warning: the subagent status line (hooks/sta
 if [[ "${1:-}" == "--pull" ]]; then
   # Reads unpushed (left) and behind (right) commit counts against the upstream; both are 0 when there is no upstream
   read -r unpushed behind <<<"$(git -C "$repo" rev-list --left-right --count HEAD...@{u} 2>/dev/null || echo 0 0)"
+  # Reads the checked-out branch name; empty when HEAD is detached
   branch="$(git -C "$repo" symbolic-ref --short -q HEAD 2>/dev/null)"
 
   # Builds a comma-separated list of only the applicable parts, in the order behind, unpushed, uncommitted, branch
