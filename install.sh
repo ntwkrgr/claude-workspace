@@ -61,4 +61,22 @@ done
 # Flags missing tools the synced config depends on
 command -v jq >/dev/null || echo "warning: hooks/block-env-edits.sh and hooks/statusline.sh need jq (brew install jq / sudo apt install jq)"
 command -v node >/dev/null || echo "warning: the subagent status line (hooks/statusline.js) needs node"
+
+# With --pull, prints one line if this clone is behind GitHub, has unpushed commits, has uncommitted changes, or is off main
+if [[ "${1:-}" == "--pull" ]]; then
+  # Reads unpushed (left) and behind (right) commit counts against the upstream; both are 0 when there is no upstream
+  read -r unpushed behind <<<"$(git -C "$repo" rev-list --left-right --count HEAD...@{u} 2>/dev/null || echo 0 0)"
+  # Reads the checked-out branch name; empty when HEAD is detached
+  branch="$(git -C "$repo" symbolic-ref --short -q HEAD 2>/dev/null)"
+
+  # Builds a comma-separated list of only the applicable parts, in the order behind, unpushed, uncommitted, branch
+  parts=""
+  [[ "$behind" -gt 0 ]] && parts="$behind behind"
+  [[ "$unpushed" -gt 0 ]] && parts="${parts:+$parts, }$unpushed unpushed"
+  [[ -n "$(git -C "$repo" status --porcelain 2>/dev/null)" ]] && parts="${parts:+$parts, }uncommitted changes"
+  [[ "$branch" != main ]] && parts="${parts:+$parts, }on ${branch:-detached HEAD}, not main"
+
+  # Prints the warning line for Claude to relay, only when at least one part is present
+  [[ -n "$parts" ]] && echo "warning: claude-workspace on this Mac is out of sync with GitHub ($parts). Tell the user this at the start of your first reply, and that ~/Developer/claude-workspace needs a commit/push or pull."
+fi
 exit 0
