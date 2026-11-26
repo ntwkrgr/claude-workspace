@@ -61,4 +61,34 @@ done
 # Flags missing tools the synced config depends on
 command -v jq >/dev/null || echo "warning: hooks/block-env-edits.sh and hooks/statusline.sh need jq (brew install jq / sudo apt install jq)"
 command -v node >/dev/null || echo "warning: the subagent status line (hooks/statusline.js) needs node"
+
+# With --pull, prints one line if this clone is behind GitHub, has unpushed commits, or has uncommitted changes
+if [[ "${1:-}" == "--pull" ]]; then
+  # Reads unpushed (left) and behind (right) commit counts against the upstream; both fall back to 0 when there is no upstream
+  counts="$(git -C "$repo" rev-list --left-right --count HEAD...@{u} 2>/dev/null || true)"
+  read -r unpushed behind <<<"${counts:-0 0}"
+
+  # Sets dirty to 1 when the working tree has any uncommitted or untracked changes
+  dirty=""
+  if [[ -n "$(git -C "$repo" status --porcelain)" ]]; then
+    dirty=1
+  fi
+
+  # Builds a comma-separated list of only the non-zero parts, in the fixed order behind, unpushed, uncommitted
+  parts=""
+  if [[ "$behind" -gt 0 ]]; then
+    parts="$behind behind"
+  fi
+  if [[ "$unpushed" -gt 0 ]]; then
+    parts="${parts:+$parts, }$unpushed unpushed"
+  fi
+  if [[ -n "$dirty" ]]; then
+    parts="${parts:+$parts, }uncommitted changes"
+  fi
+
+  # Prints the warning line for Claude to relay, only when at least one part is present
+  if [[ -n "$parts" ]]; then
+    echo "warning: claude-workspace on this Mac is out of sync with GitHub ($parts). Tell the user this at the start of your first reply, and that ~/Developer/claude-workspace needs a commit/push or pull."
+  fi
+fi
 exit 0
