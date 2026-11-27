@@ -1,6 +1,6 @@
 ---
 name: mac-storage-cleaner
-description: Safely reclaim disk space on a Mac — the trustworthy, transparent, reversible alternative to CleanMyMac and similar tools. Use whenever the user says their Mac disk or storage is full or nearly full, gets a "startup disk almost full" / low-storage warning, asks to free up space, clean/clear caches, remove junk, delete leftover files from apps they uninstalled, or find what's eating their disk — in any language (e.g. English "my mac is out of space", "free up disk", "clear caches", "what's taking up my storage"; Georgian "ქეში გაასუფთავე", "მეხსიერება გადამევსო", "ადგილი აღარ მაქვს"). Surveys usage first, auto-clears only pure caches, moves anything riskier to the Trash (restorable), asks before anything expensive, logs every deletion, and reports what was freed. Do NOT use for cloud storage, RAM/memory-pressure, or a single named app's own in-app cache button.
+description: Safely free up disk space on a Mac. Use when the user says their Mac disk or storage is full or nearly full, gets a low-storage warning, or asks (in any language) to free up space, clear caches, remove junk or leftovers from uninstalled apps, or find what is taking up space. Surveys first, auto-clears only pure caches, moves riskier items to the Trash, asks before anything expensive, and logs every deletion. Not for cloud storage, RAM/memory pressure, or one app's own clear-cache button.
 ---
 
 # Mac Storage Cleaner
@@ -28,16 +28,12 @@ hit something a script didn't classify or you need the precise command.
 
 ## Workflow
 
-**Locating the scripts.** The commands below resolve `$D` to this skill's own
-directory so they work whether the skill was installed as a plugin
-(`$CLAUDE_PLUGIN_ROOT` is set) or as a standalone skill (`~/.claude/skills/…`).
-Shell state doesn't persist between commands, so each block re-resolves `$D`.
+Scripts run from `~/.claude/skills/mac-storage-cleaner/scripts/`, where `install.sh` links this skill.
 
 ### 1. Survey — caches (always first, read-only)
 
 ```bash
-D="${CLAUDE_PLUGIN_ROOT:+$CLAUDE_PLUGIN_ROOT/skills/mac-storage-cleaner}"; D="${D:-$HOME/.claude/skills/mac-storage-cleaner}"
-bash "$D/scripts/survey.sh"
+bash ~/.claude/skills/mac-storage-cleaner/scripts/survey.sh
 ```
 
 Prints free space and sizes every cache that exists on *this* machine, grouped
@@ -50,8 +46,7 @@ Tell the user briefly what the safe tier removes and roughly how much it frees,
 then:
 
 ```bash
-D="${CLAUDE_PLUGIN_ROOT:+$CLAUDE_PLUGIN_ROOT/skills/mac-storage-cleaner}"; D="${D:-$HOME/.claude/skills/mac-storage-cleaner}"
-bash "$D/scripts/clean-safe.sh"
+bash ~/.claude/skills/mac-storage-cleaner/scripts/clean-safe.sh
 ```
 
 Removes only the vetted safe allowlist (nothing else — the survey's "other large
@@ -81,8 +76,7 @@ deletions. Key ones (full detail in the catalog):
 ### 4. Go beyond caches — the space the cleaners miss (read-only scan)
 
 ```bash
-D="${CLAUDE_PLUGIN_ROOT:+$CLAUDE_PLUGIN_ROOT/skills/mac-storage-cleaner}"; D="${D:-$HOME/.claude/skills/mac-storage-cleaner}"
-bash "$D/scripts/find-extras.sh"
+bash ~/.claude/skills/mac-storage-cleaner/scripts/find-extras.sh
 ```
 
 Surfaces the real hogs a cache sweep ignores: **leftover data from uninstalled
@@ -91,8 +85,7 @@ Downloads**. Everything here is ask-tier — present candidates, let the user pi
 then remove reversibly:
 
 ```bash
-D="${CLAUDE_PLUGIN_ROOT:+$CLAUDE_PLUGIN_ROOT/skills/mac-storage-cleaner}"; D="${D:-$HOME/.claude/skills/mac-storage-cleaner}"
-bash "$D/scripts/trash-items.sh" "/path/one" "/path/two"
+bash ~/.claude/skills/mac-storage-cleaner/scripts/trash-items.sh "/path/one" "/path/two"
 ```
 
 **If trashing reports "could NOT trash (permissions/TCC?)"** for every item, the
